@@ -1,0 +1,50 @@
+# Indicates compatibility version with lifecycle
+api = "0.7"
+
+[buildpack]
+description = "A Cloud Native Buildpack that installs and executes `rustup` to install Rust"
+homepage = "https://github.com/paketo-community/scarb"
+id = "paketo-community/scarb"
+keywords = ["cairo", "scarb"]
+name = "Paketo Buildpack for Scarb"
+sbom-formats = ["application/vnd.cyclonedx+json", "application/vnd.syft+json"]
+version = "{{.version}}"
+
+[[buildpack.licenses]]
+type = "Apache-2.0"
+uri = "https://github.com/paketo-community/scarb/blob/main/LICENSE"
+
+[metadata]
+include-files = ["LICENSE", "NOTICE", "README.md", "bin/build", "bin/detect", "bin/main", "buildpack.toml"]
+pre-package = "scripts/build.sh"
+
+
+#[[metadata.configurations]]
+#build = true
+#default = "gnu"
+#description = "libc implementation: gnu or musl"
+#name = "BP_RUSTUP_INIT_LIBC"
+
+[[metadata.dependencies]]
+cpes = ["cpe:2.3:a:rust:rustup:1.26.0:*:*:*:*:*:*:*"]
+id = "scarb-init"
+name = "Scarb"
+purl = "pkg:generic/rustup@1.26.0"
+sha256 = "0b2f6c8f85a3d02fde2efc0ced4657869d73fccfce59defb4e8d29233116e6db"
+source = "https://github.com/rust-lang/rustup/archive/refs/tags/1.26.0.tar.gz"
+source-sha256 = "6f20ff98f2f1dbde6886f8d133fe0d7aed24bc76c670ea1fca18eb33baadd808"
+stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
+uri = "https://static.rust-lang.org/rustup/archive/1.26.0/x86_64-unknown-linux-gnu/rustup-init"
+version = "1.26.0"
+
+[[metadata.dependencies.licenses]]
+type = "Apache-2.0"
+uri = "https://github.com/rust-lang/rustup/blob/master/LICENSE-APACHE"
+
+[[metadata.dependencies.licenses]]
+type = "MIT"
+uri = "https://github.com/rust-lang/rustup/blob/master/LICENSE-MIT"
+
+
+[[stacks]]
+id = "*"
