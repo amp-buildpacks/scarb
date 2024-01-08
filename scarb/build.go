@@ -18,12 +18,10 @@ package scarb
 
 import (
 	"fmt"
-
-	"runtime"
-
 	"github.com/buildpacks/libcnb"
 	"github.com/paketo-buildpacks/libpak"
 	"github.com/paketo-buildpacks/libpak/bard"
+	"log"
 )
 
 type Build struct {
@@ -33,39 +31,20 @@ type Build struct {
 func (b Build) Build(context libcnb.BuildContext) (libcnb.BuildResult, error) {
 	b.Logger.Title(context.Buildpack)
 	result := libcnb.NewBuildResult()
-
-	cr, err := libpak.NewConfigurationResolver(context.Buildpack, nil)
+	dependency, err := libpak.NewDependencyResolver(context)
 	if err != nil {
-		return libcnb.BuildResult{}, fmt.Errorf("unable to create configuration resolver\n%w", err)
+		return libcnb.BuildResult{}, err
 	}
-	fmt.Printf("cr = %+v", cr)
-	if ok := cr.ResolveBool("BP_RUSTUP_ENABLED"); !ok {
-		for _, entry := range context.Plan.Entries {
-			result.Unmet = append(result.Unmet, libcnb.UnmetPlanEntry{Name: entry.Name})
-		}
-		return result, nil
-	} else {
-		// create a second time so the configuration is only printed after we know the buildpack should run
-		cr, err = libpak.NewConfigurationResolver(context.Buildpack, &b.Logger)
-		if err != nil {
-			return libcnb.BuildResult{}, fmt.Errorf("unable to create configuration resolver\n%w", err)
-		}
+	build_dependency, _ := dependency.Resolve("scarb-init", "*")
+	log.Println("scarb dependency  = %+v", build_dependency)
 
+	dc, err := libpak.NewDependencyCache(context)
+	if err != nil {
+		return libcnb.BuildResult{}, fmt.Errorf("unable to create dependency cache\n%w", err)
 	}
+	dc.Logger = b.Logger
 
+	scarbInit := NewScarbInit(build_dependency, dc)
+	result.Layers = append(result.Layers, scarbInit)
 	return result, nil
-}
-func AdditionalTarget(cr libpak.ConfigurationResolver, stack string) string {
-	val, _ := cr.Resolve(("BP_RUST_TARGET"))
-	if val != "" {
-		return val
-	}
-
-	arch := "x86_64"
-	if runtime.GOARCH == "arm64" {
-		arch = "aarch64"
-	}
-
-	return arch
-
 }

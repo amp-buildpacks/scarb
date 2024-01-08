@@ -10,7 +10,7 @@ import (
 type Detect struct {
 }
 
-const PlanEntryCairo = "cairo"
+const PlanEntryScarb = "scarb"
 
 func (d Detect) Detect(context libcnb.DetectContext) (libcnb.DetectResult, error) {
 	found, err := d.CairoProject(context.Application.Path)
@@ -26,10 +26,10 @@ func (d Detect) Detect(context libcnb.DetectContext) (libcnb.DetectResult, error
 		Plans: []libcnb.BuildPlan{
 			{
 				Provides: []libcnb.BuildPlanProvide{
-					{Name: PlanEntryCairo},
+					{Name: PlanEntryScarb},
 				},
 				Requires: []libcnb.BuildPlanRequire{
-					{Name: PlanEntryCairo},
+					{Name: PlanEntryScarb},
 				},
 			},
 		},
@@ -44,12 +44,12 @@ func (d Detect) CairoProject(appDir string) (bool, error) {
 		return false, fmt.Errorf("unable to determine if Scarb.toml exists\n%w", err)
 	}
 
-	_, err = os.Stat(filepath.Join(appDir, "Scarb.lock"))
-	if os.IsNotExist(err) {
-		return false, nil
-	} else if err != nil {
-		return false, fmt.Errorf("unable to determine if Scarb.lock exists\n%w", err)
-	}
+	//_, err = os.Stat(filepath.Join(appDir, "Scarb.lock"))
+	//if os.IsNotExist(err) {
+	//	return false, nil
+	//} else if err != nil {
+	//	return false, fmt.Errorf("unable to determine if Scarb.lock exists\n%w", err)
+	//}
 
 	return true, nil
 }
