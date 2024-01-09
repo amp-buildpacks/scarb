@@ -22,13 +22,13 @@ pre-package = "scripts/build.sh"
 [[metadata.dependencies]]
 id = "scarb-init"
 name = "Scarb"
-purl = "pkg:generic/rustup@1.26.0"
-sha256 = "0b2f6c8f85a3d02fde2efc0ced4657869d73fccfce59defb4e8d29233116e6db"
-source = "https://github.com/rust-lang/rustup/archive/refs/tags/1.26.0.tar.gz"
-source-sha256 = "6f20ff98f2f1dbde6886f8d133fe0d7aed24bc76c670ea1fca18eb33baadd808"
+purl = "pkg:generic/scarb@2.4.3"
+sha256 = "0c80edd932b21308fd024a2474f2db4647c25124557737fa0facfd902fd39f53"
+source = "https://github.com/software-mansion/scarb/releases/download/v2.4.3/scarb-v2.4.3-x86_64-unknown-linux-musl.tar.gz"
+source-sha256 = "0c80edd932b21308fd024a2474f2db4647c25124557737fa0facfd902fd39f53"
 stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
-uri = "https://static.rust-lang.org/rustup/archive/1.26.0/x86_64-unknown-linux-gnu/rustup-init"
-version = "1.26.0"
+uri = "https://github.com/software-mansion/scarb/releases/download/v2.4.3/scarb-v2.4.3-x86_64-unknown-linux-musl.tar.gz"
+version = "2.4.3"
 
 [[metadata.dependencies.licenses]]
 type = "Apache-2.0"
