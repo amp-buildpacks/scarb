@@ -43,13 +43,5 @@ func (d Detect) CairoProject(appDir string) (bool, error) {
 	} else if err != nil {
 		return false, fmt.Errorf("unable to determine if Scarb.toml exists\n%w", err)
 	}
-
-	//_, err = os.Stat(filepath.Join(appDir, "Scarb.lock"))
-	//if os.IsNotExist(err) {
-	//	return false, nil
-	//} else if err != nil {
-	//	return false, fmt.Errorf("unable to determine if Scarb.lock exists\n%w", err)
-	//}
-
 	return true, nil
 }

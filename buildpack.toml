@@ -3,7 +3,7 @@ api = "0.7"
 
 [buildpack]
 description = "A Cloud Native Buildpack that installs and executes `rustup` to install Rust"
-homepage = "https://github.com/paketo-community/scarb"
+homepage = "https://github.com/zouyuxuan/scarb"
 id = "paketo-community/scarb"
 keywords = ["cairo", "scarb"]
 name = "Paketo Buildpack for Scarb"
