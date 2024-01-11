@@ -31,6 +31,8 @@ type Build struct {
 func (b Build) Build(context libcnb.BuildContext) (libcnb.BuildResult, error) {
 	b.Logger.Title(context.Buildpack)
 	result := libcnb.NewBuildResult()
+	config, err := libpak.NewConfigurationResolver(context.Buildpack, &b.Logger)
+	build_scarb, _ := config.Resolve("BP_ENABLE_SCARB_PROCESS")
 	dependency, err := libpak.NewDependencyResolver(context)
 	if err != nil {
 		return libcnb.BuildResult{}, err
@@ -45,6 +47,7 @@ func (b Build) Build(context libcnb.BuildContext) (libcnb.BuildResult, error) {
 	dc.Logger = b.Logger
 
 	scarbInit := NewScarbInit(build_dependency, dc)
+	result.Processes, err = scarbInit.BuildProcessTypes(build_scarb)
 	result.Layers = append(result.Layers, scarbInit)
 	return result, nil
 }

@@ -18,6 +18,11 @@ uri = "https://github.com/paketo-community/scarb/blob/main/LICENSE"
 include-files = ["LICENSE", "NOTICE", "README.md", "bin/build", "bin/detect", "bin/main", "buildpack.toml"]
 pre-package = "scripts/build.sh"
 
+[[metadata.configurations]]
+build = true
+default = "true"
+description = "enable the scarb run process"
+name = "BP_ENABLE_SCARB_PROCESS"
 
 [[metadata.dependencies]]
 id = "scarb-init"
