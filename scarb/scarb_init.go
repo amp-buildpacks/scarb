@@ -3,6 +3,7 @@ package scarb
 import (
 	"bytes"
 	"fmt"
+
 	"github.com/buildpacks/libcnb"
 	"github.com/paketo-buildpacks/libpak"
 	"github.com/paketo-buildpacks/libpak/bard"
@@ -10,8 +11,7 @@ import (
 	"github.com/paketo-buildpacks/libpak/effect"
 	"github.com/paketo-buildpacks/libpak/sbom"
 	"github.com/paketo-buildpacks/libpak/sherpa"
-	"log"
-	//"log"
+
 	"os"
 	"path/filepath"
 	"strings"
@@ -40,22 +40,24 @@ func NewScarbInit(dependency libpak.BuildpackDependency, cache libpak.Dependency
 func (s ScarbInit) Contribute(layer libcnb.Layer) (libcnb.Layer, error) {
 	s.LayerContributor.Logger = s.Logger
 	return s.LayerContributor.Contribute(layer, func(artifact *os.File) (libcnb.Layer, error) {
+		bin := filepath.Join(layer.Path, "bin")
 
 		s.Logger.Bodyf("Expanding %s to %s", artifact.Name(), layer.Path)
-		if err := crush.Extract(artifact, layer.Path, 0); err != nil {
+		if err := crush.Extract(artifact, layer.Path, 1); err != nil {
 			return libcnb.Layer{}, fmt.Errorf("unable to expand %s\n%w", artifact.Name(), err)
 		}
 
-		file := filepath.Join(layer.Path, fmt.Sprintf("scarb-v%s-x86_64-unknown-linux-musl/bin", s.Version))
-		s.Logger.Bodyf("Setting %s as executable", file)
-		if err := os.Chmod(layer.Path, 0755); err != nil {
+		s.Logger.Bodyf("Setting %s as executable", bin)
+		file := filepath.Join(bin, "scarb")
+		if err := os.Chmod(file, 0755); err != nil {
 			return libcnb.Layer{}, fmt.Errorf("unable to chmod %s\n%w", file, err)
 		}
 
 		s.Logger.Bodyf("Setting %s in PATH", layer.Path)
-		if err := os.Setenv("PATH", sherpa.AppendToEnvVar("PATH", ":", file)); err != nil {
+		if err := os.Setenv("PATH", sherpa.AppendToEnvVar("PATH", ":", bin)); err != nil {
 			return libcnb.Layer{}, fmt.Errorf("unable to set $PATH\n%w", err)
 		}
+
 		buf := &bytes.Buffer{}
 		if err := s.Executor.Execute(effect.Execution{
 			Command: "scarb",
@@ -67,7 +69,7 @@ func (s ScarbInit) Contribute(layer libcnb.Layer) (libcnb.Layer, error) {
 		}
 		ver := strings.Split(strings.TrimSpace(buf.String()), " ")
 		s.Logger.Bodyf("Checking %s version: %s", file, ver[1])
-		log.Printf("Checking %s version: %s", file, ver[1])
+
 		sbomPath := layer.SBOMPath(libcnb.SyftJSON)
 		dep := sbom.NewSyftDependency(layer.Path, []sbom.SyftArtifact{
 			{
@@ -77,9 +79,9 @@ func (s ScarbInit) Contribute(layer libcnb.Layer) (libcnb.Layer, error) {
 				Type:    "UnknownPackage",
 				FoundBy: "amp-buildpacks/scarb",
 				Locations: []sbom.SyftLocation{
-					{Path: "amp-buildpacks/scarb/scarb/scarb.go"},
+					{Path: "amp-buildpacks/scarb/scarb/scarb_init.go"},
 				},
-				Licenses: []string{"MUSL"},
+				Licenses: []string{"MIT"},
 				CPEs:     []string{fmt.Sprintf("cpe:2.3:a:scarb:scarb:%s:*:*:*:*:*:*:*", ver[1])},
 				PURL:     fmt.Sprintf("pkg:generic/scarb@%s", ver[1]),
 			},

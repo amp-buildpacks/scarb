@@ -18,10 +18,11 @@ package scarb
 
 import (
 	"fmt"
+	"log"
+
 	"github.com/buildpacks/libcnb"
 	"github.com/paketo-buildpacks/libpak"
 	"github.com/paketo-buildpacks/libpak/bard"
-	"log"
 )
 
 type Build struct {
