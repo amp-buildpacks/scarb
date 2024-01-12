@@ -32,13 +32,13 @@ func (b Build) Build(context libcnb.BuildContext) (libcnb.BuildResult, error) {
 	b.Logger.Title(context.Buildpack)
 	result := libcnb.NewBuildResult()
 	config, err := libpak.NewConfigurationResolver(context.Buildpack, &b.Logger)
-	build_scarb, _ := config.Resolve("BP_ENABLE_SCARB_PROCESS")
+	buildScarb, _ := config.Resolve("BP_ENABLE_SCARB_PROCESS")
 	dependency, err := libpak.NewDependencyResolver(context)
 	if err != nil {
 		return libcnb.BuildResult{}, err
 	}
-	build_dependency, _ := dependency.Resolve("scarb-init", "*")
-	log.Println("scarb dependency  = %+v", build_dependency)
+	buildDependency, _ := dependency.Resolve("scarb-init", "*")
+	log.Printf("scarb dependency  = %+v", buildDependency)
 
 	dc, err := libpak.NewDependencyCache(context)
 	if err != nil {
@@ -46,8 +46,11 @@ func (b Build) Build(context libcnb.BuildContext) (libcnb.BuildResult, error) {
 	}
 	dc.Logger = b.Logger
 
-	scarbInit := NewScarbInit(build_dependency, dc)
-	result.Processes, err = scarbInit.BuildProcessTypes(build_scarb)
+	scarbInit := NewScarbInit(buildDependency, dc)
+	result.Processes, err = scarbInit.BuildProcessTypes(buildScarb)
+	if err != nil {
+		return libcnb.BuildResult{}, fmt.Errorf("unable to build list of process types\n%w", err)
+	}
 	result.Layers = append(result.Layers, scarbInit)
 	return result, nil
 }

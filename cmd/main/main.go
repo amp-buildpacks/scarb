@@ -1,9 +1,10 @@
 package main
 
 import (
+	"os"
+
 	"github.com/buildpacks/libcnb"
 	"github.com/paketo-buildpacks/libpak/bard"
-	"os"
 	"scarb/scarb"
 )
 

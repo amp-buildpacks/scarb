@@ -8,7 +8,7 @@ id = "paketo-community/scarb"
 keywords = ["cairo", "scarb"]
 name = "Paketo Buildpack for Scarb"
 sbom-formats = ["application/vnd.cyclonedx+json", "application/vnd.syft+json"]
-version = "{{.version}}"
+version = "{{2.4.3}}"
 
 [[buildpack.licenses]]
 type = "Apache-2.0"
@@ -19,7 +19,7 @@ include-files = ["LICENSE", "NOTICE", "README.md", "bin/build", "bin/detect", "b
 pre-package = "scripts/build.sh"
 
 [[metadata.configurations]]
-build = true
+build = false
 default = "true"
 description = "enable the scarb run process"
 name = "BP_ENABLE_SCARB_PROCESS"
