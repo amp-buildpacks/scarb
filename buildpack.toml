@@ -1,9 +1,9 @@
 # Indicates compatibility version with lifecycle
-api = "0.7"
+api = "0.8"
 
 [buildpack]
-description = "A Cloud Native Buildpack that installs and executes `rustup` to install Rust"
-homepage = "https://github.com/zouyuxuan/scarb"
+description = "A Cloud Native Buildpack that installs scarb"
+homepage = "https://github.com/amp-buildpacks/scarb"
 id = "paketo-community/scarb"
 keywords = ["cairo", "scarb"]
 name = "Paketo Buildpack for Scarb"
@@ -19,23 +19,40 @@ include-files = ["LICENSE", "NOTICE", "README.md", "bin/build", "bin/detect", "b
 pre-package = "scripts/build.sh"
 
 [[metadata.configurations]]
-build = false
-default = "true"
+build = true
+default = "false"
 description = "enable the scarb run process"
 name = "BP_ENABLE_SCARB_PROCESS"
 
+[[metadata.configurations]]
+build = true
+default = "2.4.3"
+description = "the scarb version"
+name = "BP_SCARB_VERSION"
+
+[[metadata.configurations]]
+build = true
+default = "gnu"
+description = "libc implementation: gnu or musl"
+name = "BP_SCARB_LIBC"
+
 [[metadata.dependencies]]
-id = "scarb-init"
-name = "Scarb"
+id = "scarb-musl"
+name = "Scarb (musl libc)"
 purl = "pkg:generic/scarb@2.4.3"
 sha256 = "0c80edd932b21308fd024a2474f2db4647c25124557737fa0facfd902fd39f53"
 stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
 uri = "https://github.com/software-mansion/scarb/releases/download/v2.4.3/scarb-v2.4.3-x86_64-unknown-linux-musl.tar.gz"
 version = "2.4.3"
 
-[[metadata.dependencies.licenses]]
-type = "Apache-2.0"
-uri = "https://github.com/rust-lang/rustup/blob/master/LICENSE-APACHE"
+[[metadata.dependencies]]
+id = "scarb-gnu"
+name = "Scarb (gnu libc)"
+purl = "pkg:generic/scarb@2.4.3"
+sha256 = "bae801283f7fa3822079f86fbccc882f557e316305ee0ea01c8867796db52d3c"
+stacks = ["io.buildpacks.stacks.bionic", "io.paketo.stacks.tiny", "*"]
+uri = "https://github.com/software-mansion/scarb/releases/download/v2.4.3/scarb-v2.4.3-x86_64-unknown-linux-gnu.tar.gz"
+version = "2.4.3"
 
 [[metadata.dependencies.licenses]]
 type = "MIT"

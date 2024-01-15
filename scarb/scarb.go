@@ -21,7 +21,6 @@ package scarb
 import (
 	"bytes"
 	"fmt"
-
 	"github.com/buildpacks/libcnb"
 	"github.com/paketo-buildpacks/libpak"
 	"github.com/paketo-buildpacks/libpak/bard"
@@ -35,27 +34,27 @@ import (
 	"strings"
 )
 
-type ScarbInit struct {
+type Scarb struct {
 	Version          string
 	LayerContributor libpak.DependencyLayerContributor
 	Logger           bard.Logger
 	Executor         effect.Executor
 }
 
-func NewScarbInit(dependency libpak.BuildpackDependency, cache libpak.DependencyCache) ScarbInit {
+func NewScarb(dependency libpak.BuildpackDependency, cache libpak.DependencyCache) Scarb {
 	contributor := libpak.NewDependencyLayerContributor(dependency, cache, libcnb.LayerTypes{
 		Cache:  true,
 		Launch: true,
 		Build:  true,
 	})
-	return ScarbInit{
+	return Scarb{
 		Executor:         effect.NewExecutor(),
 		Version:          dependency.Version,
 		LayerContributor: contributor,
 	}
 }
 
-func (s ScarbInit) Contribute(layer libcnb.Layer) (libcnb.Layer, error) {
+func (s Scarb) Contribute(layer libcnb.Layer) (libcnb.Layer, error) {
 	s.LayerContributor.Logger = s.Logger
 	return s.LayerContributor.Contribute(layer, func(artifact *os.File) (libcnb.Layer, error) {
 		bin := filepath.Join(layer.Path, "bin")
@@ -91,13 +90,13 @@ func (s ScarbInit) Contribute(layer libcnb.Layer) (libcnb.Layer, error) {
 		sbomPath := layer.SBOMPath(libcnb.SyftJSON)
 		dep := sbom.NewSyftDependency(layer.Path, []sbom.SyftArtifact{
 			{
-				ID:      "scarb_init",
-				Name:    "scarb",
+				ID:      "scarb",
+				Name:    "Scarb",
 				Version: ver[1],
 				Type:    "UnknownPackage",
 				FoundBy: "amp-buildpacks/scarb",
 				Locations: []sbom.SyftLocation{
-					{Path: "amp-buildpacks/scarb/scarb/scarb_init.go"},
+					{Path: "amp-buildpacks/scarb/scarb/scarb.go"},
 				},
 				Licenses: []string{"MIT"},
 				CPEs:     []string{fmt.Sprintf("cpe:2.3:a:scarb:scarb:%s:*:*:*:*:*:*:*", ver[1])},
@@ -112,18 +111,18 @@ func (s ScarbInit) Contribute(layer libcnb.Layer) (libcnb.Layer, error) {
 	})
 }
 
-func (s ScarbInit) Name() string {
+func (s Scarb) Name() string {
 	return s.LayerContributor.LayerName()
 }
 
-func (s ScarbInit) BuildProcessTypes(runEnable string) ([]libcnb.Process, error) {
+func (s Scarb) BuildProcessTypes(runEnable string) ([]libcnb.Process, error) {
 	processes := []libcnb.Process{}
 
 	if runEnable == "true" {
 		processes = append(processes, libcnb.Process{
 			Type:      "web",
 			Command:   "scarb cairo-run ",
-			Arguments: []string{"--available-gas=200000000"},
+			Arguments: []string{},
 			Default:   true,
 		})
 	}
