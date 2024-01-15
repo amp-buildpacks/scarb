@@ -4,18 +4,18 @@ api = "0.8"
 [buildpack]
 description = "A Cloud Native Buildpack that installs scarb"
 homepage = "https://github.com/amp-buildpacks/scarb"
-id = "paketo-community/scarb"
+id = "amp-buildpacks/scarb"
 keywords = ["cairo", "scarb"]
-name = "Paketo Buildpack for Scarb"
+name = "AMP Buildpack for Scarb"
 sbom-formats = ["application/vnd.cyclonedx+json", "application/vnd.syft+json"]
-version = "2.4.3"
+version = "0.1.0"
 
 [[buildpack.licenses]]
 type = "Apache-2.0"
-uri = "https://github.com/paketo-community/scarb/blob/main/LICENSE"
+uri = "https://github.com/amp-buildpacks/scarb/blob/main/LICENSE"
 
 [metadata]
-include-files = ["LICENSE", "NOTICE", "README.md", "bin/build", "bin/detect", "bin/main", "buildpack.toml"]
+include-files = ["LICENSE", "README.md", "bin/build", "bin/detect", "bin/main", "buildpack.toml"]
 pre-package = "scripts/build.sh"
 
 [[metadata.configurations]]
