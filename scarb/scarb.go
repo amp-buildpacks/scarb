@@ -17,6 +17,10 @@ package scarb
 import (
 	"bytes"
 	"fmt"
+	"os"
+	"path/filepath"
+	"strings"
+
 	"github.com/buildpacks/libcnb"
 	"github.com/paketo-buildpacks/libpak"
 	"github.com/paketo-buildpacks/libpak/bard"
@@ -24,10 +28,6 @@ import (
 	"github.com/paketo-buildpacks/libpak/effect"
 	"github.com/paketo-buildpacks/libpak/sbom"
 	"github.com/paketo-buildpacks/libpak/sherpa"
-
-	"os"
-	"path/filepath"
-	"strings"
 )
 
 type Scarb struct {
