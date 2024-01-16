@@ -16,8 +16,6 @@ package scarb
 
 import (
 	"fmt"
-	"log"
-
 	"github.com/buildpacks/libcnb"
 	"github.com/paketo-buildpacks/libpak"
 	"github.com/paketo-buildpacks/libpak/bard"
@@ -38,9 +36,8 @@ func (b Build) Build(context libcnb.BuildContext) (libcnb.BuildResult, error) {
 	}
 	libc, _ := config.Resolve("BP_SCARB_LIBC")
 
-	version, _ := config.Resolve("BP_LEO_VERSION")
+	version, _ := config.Resolve("BP_SCARB_VERSION")
 	buildDependency, _ := dependency.Resolve(fmt.Sprintf("scarb-%s", libc), version)
-	log.Printf("scarb dependency  = %+v", buildDependency)
 
 	dc, err := libpak.NewDependencyCache(context)
 	if err != nil {
