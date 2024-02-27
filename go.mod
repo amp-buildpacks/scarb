@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/buildpacks/libcnb v1.30.1
-	github.com/paketo-buildpacks/libpak v1.68.1
+	github.com/paketo-buildpacks/libpak v1.68.2
 )
 
 require (
@@ -17,7 +17,7 @@ require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mitchellh/hashstructure/v2 v2.0.2 // indirect
-	github.com/onsi/gomega v1.30.0 // indirect
+	github.com/onsi/gomega v1.31.1 // indirect
 	github.com/xi2/xz v0.0.0-20171230120015-48954b6210f8 // indirect
-	golang.org/x/sys v0.16.0 // indirect
+	golang.org/x/sys v0.17.0 // indirect
 )
