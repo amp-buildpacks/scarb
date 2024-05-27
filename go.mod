@@ -1,6 +1,6 @@
 module scarb
 
-go 1.20
+go 1.22
 
 require (
 	github.com/buildpacks/libcnb v1.30.3
@@ -8,7 +8,7 @@ require (
 )
 
 require (
-	github.com/BurntSushi/toml v1.3.2 // indirect
+	github.com/BurntSushi/toml v1.4.0 // indirect
 	github.com/Masterminds/semver/v3 v3.2.1 // indirect
 	github.com/creack/pty v1.1.21 // indirect
 	github.com/h2non/filetype v1.1.3 // indirect
