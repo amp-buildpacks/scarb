@@ -17,9 +17,10 @@ package main
 import (
 	"os"
 
+	scarb "github.com/amp-buildpacks/scarb/scarb"
+
 	"github.com/buildpacks/libcnb"
 	"github.com/paketo-buildpacks/libpak/bard"
-	"scarb/scarb"
 )
 
 func main() {
