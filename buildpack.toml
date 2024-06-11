@@ -8,7 +8,7 @@ id = "amp-buildpacks/scarb"
 keywords = ["cairo", "scarb"]
 name = "AMP Buildpack for Scarb"
 sbom-formats = ["application/vnd.cyclonedx+json", "application/vnd.syft+json"]
-version = "0.1.0"
+version = "{{ .version }}"
 
 [[buildpack.licenses]]
 type = "Apache-2.0"
