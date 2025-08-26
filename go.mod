@@ -1,6 +1,8 @@
 module github.com/amp-buildpacks/scarb
 
-go 1.24
+go 1.24.0
+
+toolchain go1.24.6
 
 require (
 	github.com/buildpacks/libcnb v1.30.4
@@ -17,7 +19,7 @@ require (
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mitchellh/hashstructure/v2 v2.0.2 // indirect
-	github.com/onsi/gomega v1.38.0 // indirect
+	github.com/onsi/gomega v1.38.1 // indirect
 	github.com/xi2/xz v0.0.0-20171230120015-48954b6210f8 // indirect
 	golang.org/x/sys v0.35.0 // indirect
 )
