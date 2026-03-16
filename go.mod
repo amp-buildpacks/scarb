@@ -1,6 +1,6 @@
 module github.com/amp-buildpacks/scarb
 
-go 1.25.0
+go 1.26
 
 require (
 	github.com/buildpacks/libcnb v1.30.4
